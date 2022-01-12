@@ -2,6 +2,13 @@ package com.nero;
 
 public class Problem05LongestPalindromicSubstring {
 
+    /**
+     * O(1 ^ 2 + 2 ^ 2 + 3 ^ 3 + (n - 1) ^ 2 + (n - 2) ^ 2 = n ^ 3)
+     * O(n ^ 3)
+     *
+     * @param s
+     * @return
+     */
     public String longestPalindrome01(String s) {
         for (int i = 0; i < s.length() - 1; i++) {
             for (int j = 0; j <= i; j++) {

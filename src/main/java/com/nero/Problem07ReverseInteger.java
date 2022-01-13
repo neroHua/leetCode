@@ -13,6 +13,11 @@ package com.nero;
  */
 public class Problem07ReverseInteger {
 
+    /**
+     * O(n)
+     * @param x
+     * @return
+     */
     public int reverse01(int x) {
         String s = Integer.toString(x);
 
@@ -32,6 +37,77 @@ public class Problem07ReverseInteger {
         }
 
         return reverse;
+    }
+
+    /**
+     * O(n)
+     * @param x
+     * @return
+     */
+    public int reverse02(int x) {
+        if (x == 0) {
+            return 0;
+        }
+
+        int reverse = x % 10;
+        x = x / 10;
+        int reverseHi = 0;
+        int reverseLow = 0;
+
+        boolean negative = x < 0;
+        int overFlowAdd;
+        int overFlowMultiply;
+
+
+        if (negative) {
+            overFlowAdd = Integer.MIN_VALUE;
+            overFlowMultiply = overFlowAdd / 10;
+            while (x != 0) {
+                if (reverseHi < overFlowMultiply) {
+                    return 0;
+                }
+                reverseHi = reverse * 10;
+                reverseLow = x % 10;
+                if (overFlowAdd - reverseHi > reverseLow) {
+                    return 0;
+                }
+                reverse = reverseHi + reverseLow;
+                x = x / 10;
+            }
+        }
+        else {
+            overFlowAdd = Integer.MAX_VALUE;
+            overFlowMultiply = overFlowAdd / 10;
+            while (x != 0) {
+                if (reverseHi > overFlowMultiply) {
+                    return 0;
+                }
+                reverseHi = reverse * 10;
+                reverseLow = x % 10;
+                if (overFlowAdd - reverseHi < reverseLow) {
+                    return 0;
+                }
+                reverse = reverseHi + reverseLow;
+                x = x / 10;
+            }
+        }
+
+        return reverse;
+    }
+
+    public static void main(String[] args) {
+        int a = -5432;
+//        a = - a;
+        int a1 = a % 10;
+        int a2 = a / 10 % 10;
+        int a3 = a / 10 / 10 % 10;
+        int a4 = a / 10 / 10 / 10 % 10;
+
+        System.out.println(a);
+        System.out.println(a1);
+        System.out.println(a2);
+        System.out.println(a3);
+        System.out.println(a4);
     }
 
 }

@@ -18,6 +18,12 @@ package com.nero;
  */
 public class Problem06ZigZagConversion {
 
+    /**
+     * O(n)
+     * @param s
+     * @param numRows
+     * @return
+     */
     public String convert(String s, int numRows) {
         if (numRows == 1) {
             return s;

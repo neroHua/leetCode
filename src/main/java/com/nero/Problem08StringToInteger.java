@@ -10,13 +10,23 @@ public class Problem08StringToInteger {
         char[] charArray = s.toCharArray();
         int iterator = 0;
 
-        while (iterator < charArray.length) {
-            if ('0' <= charArray[iterator] && charArray[iterator] <= '9') {
-                break;
-            }
+        while (' ' == charArray[iterator]) {
             iterator++;
+            if (iterator == charArray.length) {
+                return 0;
+            }
         }
-        if (iterator == charArray.length) {
+
+        if ('+' == charArray[iterator] || '-' == charArray[iterator]) {
+            iterator++;
+            if (iterator == charArray.length) {
+                return 0;
+            }
+            if (!('0' <= charArray[iterator] && charArray[iterator] <= '9')) {
+                return 0;
+            }
+        }
+        else if (!('0' <= charArray[iterator] && charArray[iterator] <= '9')) {
             return 0;
         }
 
@@ -35,25 +45,40 @@ public class Problem08StringToInteger {
         }
         iterator++;
 
-        int overFlow = 0;
+        int high;
+        int low;
+        int overFlowAdd;
+        int overFlowMultiply;
         if (negative) {
-            overFlow = Integer.MIN_VALUE / 10;
+            overFlowAdd = Integer.MIN_VALUE;
+            overFlowMultiply = Integer.MIN_VALUE / 10;
             while (iterator < charArray.length && '0' <= charArray[iterator] && charArray[iterator] <= '9') {
-                if (iteratorNum < overFlow) {
+                if (iteratorNum < overFlowMultiply) {
                     return Integer.MIN_VALUE;
                 }
-                iteratorNum = iteratorNum * -10;
-                iteratorNum = iteratorNum - charArray[iterator] + 48;
+                high = iteratorNum * 10;
+                low = - charArray[iterator] + 48;
+                if (overFlowAdd - high > low) {
+                    return Integer.MIN_VALUE;
+                }
+                iteratorNum = high + low;
+                iterator++;
             }
         }
         else {
-            overFlow = Integer.MAX_VALUE / 10;
+            overFlowAdd = Integer.MAX_VALUE;
+            overFlowMultiply = Integer.MAX_VALUE / 10;
             while (iterator < charArray.length && '0' <= charArray[iterator] && charArray[iterator] <= '9') {
-                if (iteratorNum > overFlow) {
+                if (iteratorNum > overFlowMultiply) {
                     return Integer.MAX_VALUE;
                 }
-                iteratorNum = iteratorNum * 10;
-                iteratorNum = iteratorNum + charArray[iterator] - 48;
+                high = iteratorNum * 10;
+                low = charArray[iterator] - 48;
+                if (overFlowAdd - high < low) {
+                    return Integer.MAX_VALUE;
+                }
+                iteratorNum = high + low;
+                iterator++;
             }
         }
 

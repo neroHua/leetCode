@@ -1,5 +1,6 @@
-package com.nero;
+package com.nero.normal.section01;
 
+import com.nero.normal.section01.Problem08StringToInteger;
 import org.junit.Assert;
 import org.junit.Test;
 

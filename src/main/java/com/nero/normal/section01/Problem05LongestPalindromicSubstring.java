@@ -1,4 +1,4 @@
-package com.nero;
+package com.nero.normal.section01;
 
 public class Problem05LongestPalindromicSubstring {
 

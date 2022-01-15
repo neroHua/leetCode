@@ -1,4 +1,4 @@
-package com.nero;
+package com.nero.normal.section01;
 
 import java.util.HashMap;
 import java.util.Map;

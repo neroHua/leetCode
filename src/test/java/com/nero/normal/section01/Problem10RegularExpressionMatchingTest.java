@@ -68,4 +68,24 @@ public class Problem10RegularExpressionMatchingTest {
     public void test12() {
         Assert.assertFalse(toBeTest.isMatch02("mississippi", "mis*is*p*."));
     }
+
+    @Test
+    public void test13() {
+        Assert.assertFalse(toBeTest.isMatch02("bb", ".bab"));
+    }
+
+    @Test
+    public void test14() {
+        Assert.assertTrue(toBeTest.isMatch02("ab", ".*..c*"));
+    }
+
+    @Test
+    public void test15() {
+        Assert.assertFalse(toBeTest.isMatch02("ab", ".*c"));
+    }
+
+    @Test
+    public void test16() {
+        Assert.assertFalse(toBeTest.isMatch02("a", ".*..a*"));
+    }
 }

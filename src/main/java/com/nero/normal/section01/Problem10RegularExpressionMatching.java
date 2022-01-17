@@ -34,15 +34,22 @@ public class Problem10RegularExpressionMatching {
             return true;
         }
         else if (i >= sArray.length && j <= pArray.length - 2) {
-            for (; j <= pArray.length - 2; j += 2) {
-                if ('*' != pArray[j + i]) {
+            if ('*' == pArray[j + 1]) {
+                for (; j <= pArray.length - 2; j += 2) {
+                    if ('*' != pArray[j + 1]) {
+                        return false;
+                    }
+                }
+                if ('*' == pArray[pArray.length - 1]) {
+                    return true;
+                }
+                else {
                     return false;
                 }
             }
-            if ('*' != pArray[pArray.length - 1]) {
+            else {
                 return false;
             }
-            return true;
         }
         else if (i >= sArray.length && j == pArray.length - 1) {
             return false;
@@ -90,30 +97,36 @@ public class Problem10RegularExpressionMatching {
     }
 
     private boolean subMatch02(int i, int j) {
+        System.out.println(i + "\t" + j);
         if (helpArray[i][j] != 0) {
             return helpArray[i][j] == 1 ? false : true;
         }
 
-        System.out.println(i + "\t" + j);
         if (i >= sArray.length && j >= pArray.length) {
             helpArray[i][j] = 1;
             return true;
         }
         else if (i >= sArray.length && j <= pArray.length - 2) {
-            for (; j <= pArray.length - 2; j += 2) {
-                if ('*' != pArray[j + i]) {
-                    helpArray[i][j] = 2;
-                    helpArray[i][j + 1] = 2;
+            if ('*' == pArray[j + 1]) {
+                for (; j <= pArray.length - 2; j += 2) {
+                    if ('*' != pArray[j + 1]) {
+                        helpArray[i][j] = 1;
+                        helpArray[i][j + 1] = 1;
+                        return false;
+                    }
+                }
+                if ('*' == pArray[pArray.length - 1]) {
+                    return true;
+                }
+                else {
+                    helpArray[i][pArray.length - 1] = 1;
                     return false;
                 }
-                helpArray[i][j] = 1;
-                helpArray[i][j + 1] = 1;
             }
-            if ('*' != pArray[pArray.length - 1]) {
-                helpArray[i][pArray.length - 1] = 1;
+            else {
+                helpArray[i][j] = 1;
                 return false;
             }
-            return true;
         }
         else if (i >= sArray.length && j == pArray.length - 1) {
             helpArray[i][j] = 1;
@@ -127,7 +140,6 @@ public class Problem10RegularExpressionMatching {
         if (j + 1 < pArray.length && '*' == pArray[j + 1]) {
             for (int m = i; m < sArray.length; m++) {
                 if ('.' == pArray[j] || sArray[m] == pArray[j]) {
-                    helpArray[m][j] = 2;
                     if (subMatch02(m + 1, j + 2)) {
                         return true;
                     }
@@ -148,7 +160,6 @@ public class Problem10RegularExpressionMatching {
         }
         else {
             if ('.' == pArray[j] || sArray[i] == pArray[j]) {
-                helpArray[i][j] = 2;
                 return subMatch02(i + 1, j + 1);
             }
         }

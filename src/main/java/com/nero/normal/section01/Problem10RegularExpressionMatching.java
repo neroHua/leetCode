@@ -97,13 +97,11 @@ public class Problem10RegularExpressionMatching {
     }
 
     private boolean subMatch02(int i, int j) {
-        System.out.println(i + "\t" + j);
         if (helpArray[i][j] != 0) {
             return helpArray[i][j] == 1 ? false : true;
         }
 
         if (i >= sArray.length && j >= pArray.length) {
-            helpArray[i][j] = 1;
             return true;
         }
         else if (i >= sArray.length && j <= pArray.length - 2) {

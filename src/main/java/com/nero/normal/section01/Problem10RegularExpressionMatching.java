@@ -22,6 +22,12 @@ public class Problem10RegularExpressionMatching {
     private char[] pArray;
     private int[][] helpArray;
 
+    /**
+     * O ( e ^ 2)
+     * @param s
+     * @param p
+     * @return
+     */
     public boolean isMatch(String s, String p) {
         sArray = s.toCharArray();
         pArray = p.toCharArray();
@@ -88,6 +94,12 @@ public class Problem10RegularExpressionMatching {
         return false;
     }
 
+    /**
+     * O(s.length * p.length)
+     * @param s
+     * @param p
+     * @return
+     */
     public boolean isMatch02(String s, String p) {
         sArray = s.toCharArray();
         pArray = p.toCharArray();

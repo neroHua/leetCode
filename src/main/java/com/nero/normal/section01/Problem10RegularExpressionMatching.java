@@ -23,7 +23,7 @@ public class Problem10RegularExpressionMatching {
     private int[][] helpArray;
 
     /**
-     * O ( e ^ 2)
+     * O ( e ^ n)
      * @param s
      * @param p
      * @return

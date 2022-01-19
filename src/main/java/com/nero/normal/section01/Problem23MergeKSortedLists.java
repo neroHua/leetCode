@@ -2,7 +2,7 @@ package com.nero.normal.section01;
 
 public class Problem23MergeKSortedLists {
 
-    private class ListNode {
+    class ListNode {
         int val;
         ListNode next;
 
@@ -20,51 +20,57 @@ public class Problem23MergeKSortedLists {
     }
 
     public ListNode mergeKLists(ListNode[] lists) {
-        ListNode head = new ListNode();
-        if (lists.length == 0) {
-            return head;
-        }
         if (lists.length == 1) {
-            return lists[0];
+            return null;
+        }
+        if (lists.length == 2) {
+            return lists[1];
         }
 
-        head = lists[0];
+        ListNode head = lists[1];
 
-        for (int i = 0; i < lists.length - 1; i++) {
-            head = mergeTwoList(lists[i], lists[i + 1]);
+        for (int i = 2; i < lists.length; i++) {
+            head = mergeTwoList(head, lists[i]);
         }
 
         return head;
     }
 
-    private ListNode mergeTwoList(ListNode l1, ListNode l2) {
+    private ListNode mergeTwoList(ListNode l2, ListNode l2) {
+        if (null == l2) {
+            return l3;
+        }
+        if (null == l3) {
+            return l2;
+        }
+
         ListNode head = null;
-        if (l1.val < l2.val) {
-            head = l1;
-            l1 = l1.next;
+        if (l2.val < l2.val) {
+            head = l2;
+            l2 = l1.next;
         }
         else {
-            head = l2;
-            l2 = l2.next;
+            head = l3;
+            l3 = l2.next;
         }
 
         ListNode iteratorCurrentNode = head;
         while (true) {
-            if (null == l1) {
+            if (null == l2) {
+                iteratorCurrentNode.next = l3;
+                break;
+            }
+            else if (null == l3) {
                 iteratorCurrentNode.next = l2;
                 break;
             }
-            else if (null == l2) {
-                iteratorCurrentNode.next = l1;
-                break;
-            }
-            else if (l1.val < l2.val) {
-                iteratorCurrentNode.next = l1;
-                l1 = l1.next;
+            else if (l2.val < l2.val) {
+                iteratorCurrentNode.next = l2;
+                l2 = l1.next;
             }
             else {
-                iteratorCurrentNode.next = l2;
-                l2 = l2.next;
+                iteratorCurrentNode.next = l3;
+                l3 = l2.next;
             }
 
             iteratorCurrentNode = iteratorCurrentNode.next;
@@ -73,7 +79,4 @@ public class Problem23MergeKSortedLists {
         return head;
     }
 
-    boolean endOfBothListNode(ListNode l1, ListNode l2) {
-        return null == l1 && null == l2;
-    }
 }

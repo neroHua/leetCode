@@ -20,57 +20,57 @@ public class Problem23MergeKSortedLists {
     }
 
     public ListNode mergeKLists(ListNode[] lists) {
-        if (lists.length == 1) {
+        if (lists.length == 0) {
             return null;
         }
-        if (lists.length == 2) {
-            return lists[1];
+        if (lists.length == 1) {
+            return lists[0];
         }
 
-        ListNode head = lists[1];
+        ListNode head = lists[0];
 
-        for (int i = 2; i < lists.length; i++) {
+        for (int i = 1; i < lists.length; i++) {
             head = mergeTwoList(head, lists[i]);
         }
 
         return head;
     }
 
-    private ListNode mergeTwoList(ListNode l2, ListNode l2) {
-        if (null == l2) {
-            return l3;
-        }
-        if (null == l3) {
+    private ListNode mergeTwoList(ListNode l1, ListNode l2) {
+        if (null == l1) {
             return l2;
+        }
+        if (null == l2) {
+            return l1;
         }
 
         ListNode head = null;
-        if (l2.val < l2.val) {
-            head = l2;
-            l2 = l1.next;
+        if (l1.val < l2.val) {
+            head = l1;
+            l1 = l1.next;
         }
         else {
-            head = l3;
-            l3 = l2.next;
+            head = l2;
+            l2 = l2.next;
         }
 
         ListNode iteratorCurrentNode = head;
         while (true) {
-            if (null == l2) {
-                iteratorCurrentNode.next = l3;
-                break;
-            }
-            else if (null == l3) {
+            if (null == l1) {
                 iteratorCurrentNode.next = l2;
                 break;
             }
-            else if (l2.val < l2.val) {
-                iteratorCurrentNode.next = l2;
-                l2 = l1.next;
+            else if (null == l2) {
+                iteratorCurrentNode.next = l1;
+                break;
+            }
+            else if (l1.val < l2.val) {
+                iteratorCurrentNode.next = l1;
+                l1 = l1.next;
             }
             else {
-                iteratorCurrentNode.next = l3;
-                l3 = l2.next;
+                iteratorCurrentNode.next = l2;
+                l2 = l2.next;
             }
 
             iteratorCurrentNode = iteratorCurrentNode.next;

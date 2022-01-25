@@ -96,7 +96,7 @@ public class Problem32LongestValidParentheses {
             currentMaxLongestValidArray[start][end - 1] = sub2;
         }
         else {
-            sub1 = currentMaxLongestValidArray[start][end - 1];
+            sub2 = currentMaxLongestValidArray[start][end - 1];
         }
 
         int max = 0;

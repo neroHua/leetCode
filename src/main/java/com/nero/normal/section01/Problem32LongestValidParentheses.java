@@ -151,4 +151,92 @@ public class Problem32LongestValidParentheses {
         return 0;
     }
 
+    public int longestValidParentheses03(String s) {
+        if (s.length() == 0 || s.length() == 1) {
+            return 0;
+        }
+
+        sArray = s.toCharArray();
+        int value = 0;
+        int maxLength = 0;
+        int currentStart = -1;
+
+        int previousMaxValidLength = 0;
+        int previousMaxValidStartIndex = -1;
+        int previousMaxValidEndIndex = -1;
+
+        int currentMaxValidLength = 0;
+        int currentMaxValidStartIndex = 0;
+        int currentMaxValidEndIndex = 0;
+
+        int previousZeroMaxValidLength = 0;
+        int previousZeroMaxValidStartIndex = -1;
+        int previousZeroMaxValidEndIndex = -1;
+
+        for (int i = 0; i < s.length(); i++) {
+            if ('(' == sArray[i]) {
+                currentMaxValidStartIndex = i + 1;
+                currentMaxValidEndIndex = i + 1;
+                currentMaxValidLength = 0;
+
+                value++;
+            }
+            else {
+                if (value >= 1) {
+                    currentMaxValidLength += 2;
+                    currentMaxValidEndIndex = i;
+                    currentMaxValidStartIndex = currentMaxValidEndIndex - currentMaxValidLength + 1;
+
+                    if (currentMaxValidStartIndex == previousMaxValidEndIndex + 1) {
+                        previousMaxValidEndIndex = currentMaxValidEndIndex;
+                        previousMaxValidLength += currentMaxValidLength;
+
+                        currentMaxValidLength = 0;
+                        currentMaxValidStartIndex = i + 1;
+                        currentMaxValidEndIndex = i + 1;
+                        maxLength = maxLength > previousMaxValidLength ? maxLength : previousMaxValidLength;
+                    }
+                    else if (currentMaxValidEndIndex - 1 == previousMaxValidEndIndex) {
+                        previousMaxValidEndIndex = currentMaxValidEndIndex;
+                        previousMaxValidLength += currentMaxValidLength;
+                        previousMaxValidStartIndex = previousMaxValidEndIndex - previousMaxValidLength + 1;
+
+                        if (previousZeroMaxValidEndIndex + 1 == previousMaxValidStartIndex) {
+                            previousMaxValidStartIndex = previousZeroMaxValidStartIndex;
+                            previousMaxValidLength += previousZeroMaxValidLength;
+                        }
+                        else if (previousZeroMaxValidLength == 0) {
+                            previousZeroMaxValidStartIndex = previousMaxValidStartIndex;
+                            previousZeroMaxValidEndIndex = previousMaxValidEndIndex;
+                            previousZeroMaxValidLength = previousMaxValidLength;
+                        }
+
+                        currentMaxValidLength = 0;
+                        currentMaxValidStartIndex = i + 1;
+                        currentMaxValidEndIndex = i + 1;
+                        maxLength = maxLength > previousMaxValidLength ? maxLength : previousMaxValidLength;
+                    }
+                    else {
+                        previousMaxValidStartIndex = currentMaxValidStartIndex;
+                        previousMaxValidEndIndex = currentMaxValidEndIndex;
+                        previousMaxValidLength = currentMaxValidLength;
+
+                        currentMaxValidLength = 0;
+                        currentMaxValidStartIndex = i + 1;
+                        currentMaxValidEndIndex = i + 1;
+                        maxLength = maxLength > previousMaxValidLength ? maxLength : previousMaxValidLength;
+                    }
+                }
+                else {
+                    currentMaxValidStartIndex = i + 1;
+                    currentMaxValidEndIndex = i + 1;
+                    currentMaxValidLength = 0;
+                }
+                value = value == 0 ? 0 : value - 1;
+            }
+        }
+
+        return maxLength;
+    }
+
 }

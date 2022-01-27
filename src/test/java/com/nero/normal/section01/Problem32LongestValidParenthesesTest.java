@@ -124,4 +124,17 @@ public class Problem32LongestValidParenthesesTest {
     public void test22() {
         Assert.assertEquals(10, toBeTest.longestValidParentheses03(")(())(()()))("));
     }
+
+    @Test
+    public void test23() {
+        Assert.assertEquals(10, toBeTest.longestValidParentheses03(")()(((())))("));
+    }
+
+    @Test
+    public void test24() {
+        // 这个测试用例显示了，凡是遇到((这种的，我都需要吧之前的previousZeroMaxValidLength相关变量压入栈中
+        // 一旦断开连接就需要清空栈
+        // 上面的想法有点麻烦，我可以考虑使用一个一维数组来记录i处，以i为结尾的最长的有效小括号的长度
+        Assert.assertEquals(14, toBeTest.longestValidParentheses03("()(((()(()))))"));
+    }
 }

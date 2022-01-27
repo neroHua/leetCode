@@ -175,10 +175,17 @@ public class Problem32LongestValidParentheses {
 
         for (int i = 0; i < s.length(); i++) {
             if ('(' == sArray[i]) {
+                if (i + 1 <= sArray.length - 1 && '(' == sArray[i + 1]) {
+                    if (previousMaxValidEndIndex + 1 == i) {
+                        previousZeroMaxValidStartIndex = previousMaxValidStartIndex;
+                        previousZeroMaxValidEndIndex = previousMaxValidEndIndex;
+                        previousZeroMaxValidLength = previousMaxValidLength;
+                    }
+                }
+
                 currentMaxValidStartIndex = i + 1;
                 currentMaxValidEndIndex = i + 1;
                 currentMaxValidLength = 0;
-
                 value++;
             }
             else {
@@ -190,6 +197,12 @@ public class Problem32LongestValidParentheses {
                     if (currentMaxValidStartIndex == previousMaxValidEndIndex + 1) {
                         previousMaxValidEndIndex = currentMaxValidEndIndex;
                         previousMaxValidLength += currentMaxValidLength;
+
+                        if (previousZeroMaxValidLength == 0) {
+                            previousZeroMaxValidStartIndex = previousMaxValidStartIndex;
+                            previousZeroMaxValidEndIndex = previousMaxValidEndIndex;
+                            previousZeroMaxValidLength = previousMaxValidLength;
+                        }
 
                         currentMaxValidLength = 0;
                         currentMaxValidStartIndex = i + 1;

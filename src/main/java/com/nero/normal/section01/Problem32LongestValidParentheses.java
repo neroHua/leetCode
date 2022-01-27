@@ -9,6 +9,7 @@ package com.nero.normal.section01;
 public class Problem32LongestValidParentheses {
 
     char[] sArray;
+    int[] endInThisIndexMaxLongestValid;
     int[][] currentMaxLongestValidArray;
 
     public int longestValidParentheses(String s) {
@@ -157,96 +158,43 @@ public class Problem32LongestValidParentheses {
         }
 
         sArray = s.toCharArray();
+        endInThisIndexMaxLongestValid = new int[sArray.length];
         int value = 0;
-        int maxLength = 0;
-        int currentStart = -1;
-
-        int previousMaxValidLength = 0;
-        int previousMaxValidStartIndex = -1;
-        int previousMaxValidEndIndex = -1;
-
-        int currentMaxValidLength = 0;
-        int currentMaxValidStartIndex = 0;
-        int currentMaxValidEndIndex = 0;
-
-        int previousZeroMaxValidLength = 0;
-        int previousZeroMaxValidStartIndex = -1;
-        int previousZeroMaxValidEndIndex = -1;
 
         for (int i = 0; i < s.length(); i++) {
             if ('(' == sArray[i]) {
-                if (i + 1 <= sArray.length - 1 && '(' == sArray[i + 1]) {
-                    if (previousMaxValidEndIndex + 1 == i) {
-                        previousZeroMaxValidStartIndex = previousMaxValidStartIndex;
-                        previousZeroMaxValidEndIndex = previousMaxValidEndIndex;
-                        previousZeroMaxValidLength = previousMaxValidLength;
-                    }
-                }
-
-                currentMaxValidStartIndex = i + 1;
-                currentMaxValidEndIndex = i + 1;
-                currentMaxValidLength = 0;
+                endInThisIndexMaxLongestValid[i] = 0;
                 value++;
             }
             else {
                 if (value >= 1) {
-                    currentMaxValidLength += 2;
-                    currentMaxValidEndIndex = i;
-                    currentMaxValidStartIndex = currentMaxValidEndIndex - currentMaxValidLength + 1;
-
-                    if (currentMaxValidStartIndex == previousMaxValidEndIndex + 1) {
-                        previousMaxValidEndIndex = currentMaxValidEndIndex;
-                        previousMaxValidLength += currentMaxValidLength;
-
-                        if (previousZeroMaxValidLength == 0) {
-                            previousZeroMaxValidStartIndex = previousMaxValidStartIndex;
-                            previousZeroMaxValidEndIndex = previousMaxValidEndIndex;
-                            previousZeroMaxValidLength = previousMaxValidLength;
-                        }
-
-                        currentMaxValidLength = 0;
-                        currentMaxValidStartIndex = i + 1;
-                        currentMaxValidEndIndex = i + 1;
-                        maxLength = maxLength > previousMaxValidLength ? maxLength : previousMaxValidLength;
-                    }
-                    else if (currentMaxValidEndIndex - 1 == previousMaxValidEndIndex) {
-                        previousMaxValidEndIndex = currentMaxValidEndIndex;
-                        previousMaxValidLength += currentMaxValidLength;
-                        previousMaxValidStartIndex = previousMaxValidEndIndex - previousMaxValidLength + 1;
-
-                        if (previousZeroMaxValidEndIndex + 1 == previousMaxValidStartIndex) {
-                            previousMaxValidStartIndex = previousZeroMaxValidStartIndex;
-                            previousMaxValidLength += previousZeroMaxValidLength;
-                        }
-                        else if (previousZeroMaxValidLength == 0) {
-                            previousZeroMaxValidStartIndex = previousMaxValidStartIndex;
-                            previousZeroMaxValidEndIndex = previousMaxValidEndIndex;
-                            previousZeroMaxValidLength = previousMaxValidLength;
-                        }
-
-                        currentMaxValidLength = 0;
-                        currentMaxValidStartIndex = i + 1;
-                        currentMaxValidEndIndex = i + 1;
-                        maxLength = maxLength > previousMaxValidLength ? maxLength : previousMaxValidLength;
+                    if (')' == sArray[i - 1]) {
+                        endInThisIndexMaxLongestValid[i] = endInThisIndexMaxLongestValid[i - 1] + 2;
                     }
                     else {
-                        previousMaxValidStartIndex = currentMaxValidStartIndex;
-                        previousMaxValidEndIndex = currentMaxValidEndIndex;
-                        previousMaxValidLength = currentMaxValidLength;
-
-                        currentMaxValidLength = 0;
-                        currentMaxValidStartIndex = i + 1;
-                        currentMaxValidEndIndex = i + 1;
-                        maxLength = maxLength > previousMaxValidLength ? maxLength : previousMaxValidLength;
+                        endInThisIndexMaxLongestValid[i] = (i - 2 >= 0 ? endInThisIndexMaxLongestValid[i - 2] : 0) + 2;
+                    }
+                    // 好吧，我承认好像还是栈来的方便些
+                    int previousEndIndex = i - endInThisIndexMaxLongestValid[i];
+                    while (true) {
+                        if (previousEndIndex >= 0 && endInThisIndexMaxLongestValid[previousEndIndex] > 0) {
+                            endInThisIndexMaxLongestValid[i] += endInThisIndexMaxLongestValid[previousEndIndex];
+                            previousEndIndex = previousEndIndex - endInThisIndexMaxLongestValid[previousEndIndex];
+                            continue;
+                        }
+                        break;
                     }
                 }
                 else {
-                    currentMaxValidStartIndex = i + 1;
-                    currentMaxValidEndIndex = i + 1;
-                    currentMaxValidLength = 0;
+                    endInThisIndexMaxLongestValid[i] = 0;
                 }
                 value = value == 0 ? 0 : value - 1;
             }
+        }
+
+        int maxLength = endInThisIndexMaxLongestValid[0];
+        for (int i = 1; i < endInThisIndexMaxLongestValid.length; i++) {
+            maxLength = maxLength > endInThisIndexMaxLongestValid[i] ? maxLength : endInThisIndexMaxLongestValid[i];
         }
 
         return maxLength;

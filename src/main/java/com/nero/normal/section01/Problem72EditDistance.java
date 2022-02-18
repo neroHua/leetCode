@@ -43,6 +43,8 @@ package com.nero.normal.section01;
  * 也就是要找最长的不连续的公共子序列，寻找的一般解法为(mn)^2
  *
  * 下面给出的是一段穷举所有可能的修改情况的一般解法，效率很容易看出来是word1的长度指数级。
+ *
+ * 官方的解法非常犀利
  */
 public class Problem72EditDistance {
     private char[] charArray = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};

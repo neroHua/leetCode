@@ -1,5 +1,8 @@
 package com.nero.normal.section01;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * 给定一个单词数组 words 和一个长度 maxWidth ，重新排版单词，使其成为每行恰好有 maxWidth 个字符，且左右两端对齐的文本。
  * 你应该使用 “贪心算法” 来放置给定的单词；也就是说，尽可能多地往每行中放置单词。必要时可用空格 ' ' 填充，使得每行恰好有 maxWidth 个字符。
@@ -24,4 +27,87 @@ package com.nero.normal.section01;
  * 没啥意思：充满了不确定性，而且看着很简单，而且给的提示足够多了
  */
 public class Problem68TextJustification {
+
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> fullJustifyStringList = new LinkedList<>();
+
+        int totalWidth = 0;
+        int start = 0;
+        for (int i = 0; i < words.length; i++) {
+            if (totalWidth + words[i].length() > maxWidth) {
+                String newLine = oneLine(words, start, i - 1, maxWidth);
+                fullJustifyStringList.add(newLine);
+                start = i;
+                totalWidth = 0;
+            }
+            else {
+                totalWidth += words[i].length() + 1;
+            }
+        }
+
+        if (start >= words.length) {
+            return fullJustifyStringList;
+        }
+
+        StringBuilder finalLineStringBuilder = new StringBuilder();
+        for (int i = start; i < words.length; i++) {
+            finalLineStringBuilder.append(words[i]);
+            finalLineStringBuilder.append(' ');
+        }
+        for (int i = totalWidth; i < maxWidth; i++) {
+            finalLineStringBuilder.append(' ');
+        }
+
+        return fullJustifyStringList;
+    }
+
+    private String oneLine(String[] words, int start, int end, int maxWidth) {
+        if (end == start) {
+            return oneWordOneLine(words, start, maxWidth);
+        }
+        else {
+            return multipleWordOneLine(words, start, end, maxWidth);
+        }
+    }
+
+    private String multipleWordOneLine(String[] words, int start, int end, int maxWidth) {
+        int totalWidth = 0;
+        for (int i = start; i <= end; i++) {
+            totalWidth += words[i].length();
+        }
+
+        int totalBlankGapCount = end - start;
+        int totalBlankCount = maxWidth - totalWidth;
+        int eachBlankGapCount = totalBlankCount / totalBlankGapCount;
+        int remainderBlankCount = totalBlankCount % totalBlankGapCount;
+        int firstBlankGapCount = eachBlankGapCount + remainderBlankCount;
+
+        StringBuilder oneLineStringBuilder = new StringBuilder();
+        oneLineStringBuilder.append(words[start]);
+        for (int i = 0; i < firstBlankGapCount; i++) {
+            oneLineStringBuilder.append(' ');
+        }
+
+        int i = start + 1;
+        while (i < end) {
+            oneLineStringBuilder.append(words[i]);
+            for (int j = 0; j < firstBlankGapCount; j++) {
+                oneLineStringBuilder.append(' ');
+            }
+        }
+
+        oneLineStringBuilder.append(words[end]);
+
+        return oneLineStringBuilder.toString();
+    }
+
+    private String oneWordOneLine(String[] words, int start, int maxWidth) {
+        StringBuilder oneLineStringBuilder = new StringBuilder();
+        oneLineStringBuilder.append(words[start]);
+        for (int i = 0; i < maxWidth - words[start].length(); i++) {
+            oneLineStringBuilder.append(' ');
+        }
+        return oneLineStringBuilder.toString();
+    }
+
 }
